@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AppFirestoreService} from '../../app-firestore.service';
 import {Doc} from '../../doc';
+import { DELETE, UPDATE } from '../../actions';
 
 @Component({
   selector: 'app-document',
@@ -21,26 +22,33 @@ export class DocumentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe(params => {
       this.id = params.id;
-      this.firestoreService.getById(this.id)
-        .then(doc => {
-          this.document = new Doc(doc.id, doc.data());
-        })
-        .catch(error => {
-          console.log(error);
-          this.document = null;
-          this.router.navigate(['/']);
-        });
-      console.log(this.id);
+      this.reloadDoc();
     });
 
     this.docChange = this.firestoreService.docChange$
       .subscribe(data => {
         if (data.id === this.document.id) {
           switch (data.action) {
-            case 'delete':
+            case DELETE:
               this.router.navigate(['/']);
+              break;
+            case UPDATE:
+              this.reloadDoc();
+              break;
           }
         }
+      });
+  }
+
+  reloadDoc(): void {
+    this.firestoreService.getById(this.id)
+      .then(doc => {
+        this.document = new Doc(doc.id, doc.data());
+      })
+      .catch(error => {
+        console.log(error);
+        this.document = null;
+        this.router.navigate(['/']);
       });
   }
 

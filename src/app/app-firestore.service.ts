@@ -88,6 +88,7 @@ export class AppFirestoreService {
       .then(res => {
         const find = this.documents.find(val => val.id === doc.id);
         find.title = doc.title;
+        this.docChange$.emit({id: doc.id, action: 'update'});
       })
       .catch(err => console.log(err));
   }
