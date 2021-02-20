@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 import { Doc } from './doc';
+import {Observable} from 'rxjs';
+import {EventEmitter} from '@angular/core';
 
 export class AppFirestoreService {
   documents: Doc[] = [];
@@ -14,6 +16,7 @@ export class AppFirestoreService {
   provider = new firebase.auth.GoogleAuthProvider();
   db = firebase.firestore();
 
+  docChange$: EventEmitter<any> = new EventEmitter<any>();
 
   async auth(): Promise<any> {
     await firebase.auth()
@@ -30,6 +33,7 @@ export class AppFirestoreService {
 
   get(): void {
     this.db.collection('docs')
+      .where('user_id', '==', this.user.uid)
       .get()
       .then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
@@ -65,12 +69,12 @@ export class AppFirestoreService {
       });
   }
 
-  delete(doc: Doc): void {
-    this.db.collection('docs').doc(doc.id)
+  delete(doc: Doc): Promise<any> {
+    return this.db.collection('docs').doc(doc.id)
       .delete()
       .then(res => {
-        console.log(res);
         this.documents.splice(this.documents.findIndex(val => val.id === doc.id), 1);
+        this.docChange$.emit({id: doc.id, action: 'delete'});
       });
   }
 

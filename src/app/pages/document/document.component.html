@@ -12,6 +12,6 @@
 
   <textarea nz-input class="overflow" [(ngModel)]="document.content"></textarea>
 </div>
-<div *ngIf="document == null">
+<div *ngIf="document == null" class="loading">
   <i nz-icon [nzType]="'loading'"></i>
 </div>
