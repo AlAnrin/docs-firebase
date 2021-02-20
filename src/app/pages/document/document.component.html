@@ -1,1 +1,17 @@
-<p>document works!</p>
+<div *ngIf="document != null" class="page">
+  <div class="row">
+  <input nz-input placeholder="Название документа"
+         [(ngModel)]="document.title"/>
+    <button nz-button nzType="text" class="save"
+            (click)="update()">
+      <i nz-icon nzType="save" nzTheme="outline"></i>
+    </button>
+  </div>
+
+  <label>{{document.created | date: 'dd.MM.yyyy hh:mm:ss'}} / {{document.updated | date: 'dd.MM.yyyy hh:mm:ss'}}</label>
+
+  <textarea nz-input class="overflow" [(ngModel)]="document.content"></textarea>
+</div>
+<div *ngIf="document == null">
+  <i nz-icon [nzType]="'loading'"></i>
+</div>

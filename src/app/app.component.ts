@@ -1,21 +1,6 @@
 import { Component } from '@angular/core';
-import firebase from 'firebase';
-
-export class Doc {
-  id: string;
-  title: string;
-  content: string;
-  created: Date;
-  updated: Date;
-
-  constructor(id, data) {
-    this.id = id;
-    this.title = data.title;
-    this.content = data.content;
-    this.created = new Date(data.created.seconds * 1000);
-    this.updated = new Date(data.updated.seconds * 1000);
-  }
-}
+import {AppFirestoreService} from './app-firestore.service';
+import {Doc} from './doc';
 
 @Component({
   selector: 'app-root',
@@ -23,41 +8,23 @@ export class Doc {
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  documents: Doc[] = [];
   isCollapsed = false;
+  documents: Doc[] = [];
 
-  firebaseConfig = {
-  };
+  constructor(private firestoreService: AppFirestoreService) {
+    this.firestoreService.auth()
+      .then(res => {
+        this.firestoreService.get();
+      });
 
-  initialize = firebase.initializeApp(this.firebaseConfig);
-  analytics = firebase.analytics();
-  provider = new firebase.auth.GoogleAuthProvider();
-  db = firebase.firestore();
-
-  constructor() {
-    this.get().then(r => console.log(r));
+    this.documents = this.firestoreService.documents;
   }
 
-  async get(): Promise<any> {
-    let user = null;
-    let token = '';
-    await firebase.auth()
-      .signInWithPopup(this.provider)
-      .then((result) => {
-        const credential = result.credential;
-        // @ts-ignore
-        token = credential.accessToken;
-        user = result.user;
-      }).catch((error) => {
-      console.log(error);
-    });
+  add(): void {
+    this.firestoreService.add();
+  }
 
-    this.db.collection('docs')
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          this.documents.push(new Doc(doc.id, doc.data()));
-        });
-      });
+  delete(doc: Doc): void {
+    this.firestoreService.delete(doc);
   }
 }

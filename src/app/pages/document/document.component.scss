@@ -1,0 +1,46 @@
+.page {
+  height: calc(100vh - 48px);
+
+  label {
+    font-size: small;
+    color: gray;
+    margin: 5px;
+  }
+}
+
+.overflow {
+  height: calc(100% - 54px);
+  overflow: hidden auto;
+  scrollbar-width: thin;
+  scrollbar-color: #7b7b7b #cbcbcb;
+}
+.overflow::-webkit-scrollbar {
+  width: 10px;
+}
+.overflow::-webkit-scrollbar-track {
+  background: #cbcbcb;
+  border-radius: 20px;
+}
+.overflow::-webkit-scrollbar-thumb {
+  background-color: #7b7b7b;
+  border-radius: 20px;
+  border: 2px solid #cbcbcb;
+}
+
+.editor {
+  height: 100%;
+  width: 100%;
+}
+
+.save {
+  i {
+    color: #001529;
+  }
+}
+.save:hover {
+  background-color: #002D5E;
+  border-radius: 20px;
+  i {
+    color: white;
+  }
+}

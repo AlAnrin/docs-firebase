@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+.ant-layout-sider-children {
+  display: flex;
+  flex-direction: column;
+  height: calc(100%) !important;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: center;
+
+  a {
+    color: white;
+    font-weight: 700;
+  }
+
+  button {
+    color: #001529;
+    text-align: center;
+
+    i {
+      color: white;
+      margin-right: 0 !important;
+    }
+  }
+
+  button:hover {
+    background-color: white;
+    border-radius: 20px;
+    i {
+      color: #001529;
+    }
+  }
+}
+
+.spacer {
+  flex: 1;
+}

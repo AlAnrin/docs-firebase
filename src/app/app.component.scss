@@ -24,10 +24,6 @@
   transition: all .3s,padding 0s;
 }
 
-.trigger:hover {
-  color: #1890ff;
-}
-
 .sidebar-logo {
   position: relative;
   height: 64px;
@@ -69,12 +65,52 @@ nz-header {
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 }
 
-nz-content {
-  margin: 24px;
-}
-
 .inner-content {
   padding: 24px;
   background: #fff;
   height: 100%;
+}
+
+
+$light_blue: #1890ff;
+$dark_blue: #002D5E;
+.trigger-button {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  padding: 5px;
+  height: 50px;
+  color: #fff;
+  font-weight: 700;
+  .trigger {
+    display: flex;
+    align-items: center;
+    float: left;
+    margin: 0 10px;
+    width: 20px;
+    fill: $light_blue;
+  }
+  span {
+    color: $light_blue;
+    font-size: small;
+    text-transform: uppercase;
+  }
+}
+.trigger-button:hover {
+  background: $light_blue;
+  color: $dark_blue;
+  box-shadow: inset -3px 19px 20px -13px rgba($dark_blue, 0.42) !important;
+  .trigger, span {
+    color: white;
+    fill: white;
+  }
+}
+
+.left {
+  justify-content: center;
+}
+.right {
+  transform: rotate(180deg);
 }

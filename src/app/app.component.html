@@ -5,12 +5,38 @@
             nzBreakpoint="md"
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
+    <div class="row">
+      <div class="spacer"></div>
+      <button nz-button nzType="primary"
+              (click)="add()">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+      </button>
+    </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
       <li nz-menu-item nzMatchRouter
           *ngFor="let doc of documents">
-        <a [routerLink]="['/document', doc.id]">{{doc.title}}</a>
+        <div class="row">
+          <a [routerLink]="['/document', doc.id]">{{doc.title}}</a>
+
+          <div class="spacer"></div>
+
+          <button nz-button nzType="text" (click)="delete(doc)">
+            <i nz-icon nzType="delete" nzTheme="outline"></i>
+          </button>
+        </div>
       </li>
     </ul>
+
+    <div class="spacer"></div>
+
+    <div class="trigger-button"
+         [ngClass]="{'left': isCollapsed}"
+         (click)="isCollapsed = !isCollapsed">
+      <div class="trigger" [ngClass]="isCollapsed ? 'left' : 'right'">
+        <i nz-icon nzType="right" nzTheme="outline"></i>
+      </div>
+      <span *ngIf="!isCollapsed">Свернуть</span>
+    </div>
   </nz-sider>
   <nz-content>
     <div class="inner-content">
